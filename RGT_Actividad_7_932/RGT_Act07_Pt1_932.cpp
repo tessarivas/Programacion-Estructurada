@@ -5,7 +5,6 @@
 // Librerias
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // Menu Principal
 int msges();
@@ -132,7 +131,8 @@ int validar(char mensj[], int ri, int rf)
     do
     {
         printf("%s", mensj);
-        fflush(stdin);
+        // Borrar basura
+        fflush(stdin); 
         gets(cadena);
         num = atoi(cadena);
     } while (num < ri || num > rf);
@@ -145,13 +145,9 @@ void datos(char nombre[])
 {
     system ("CLS");
     printf("Introduzca su nombre: ");
+    // Borrar basura
     fflush(stdin);
     gets(nombre);
-
-    if (nombre[strlen(nombre) - 1] == '\n') 
-    {
-        nombre[strlen(nombre) - 1] = '\0';
-    }
 }
 
 // Salidas diferentes de la cadena
@@ -173,7 +169,7 @@ void salida1(char nombre[])
                 nombre[i] = nombre[i] - ('a' - 'A'); 
             }
         }
-    // Imprime la palabra en mayusculas o igual 
+        // Imprime la palabra en mayusculas o igual 
         printf("%c", nombre[i]);
     }
     printf("\n");
@@ -186,22 +182,28 @@ void salida2(char nombre[])
     system("CLS");
     //Imprimir nombre de la salida
     printf("Salida 2: MAYUSCULAS AL REVES\n");
-
-    int length = strlen(nombre);
-
+    // Declarar variable para la longitud/largo
+    int length = 0;
+    // Calcular
+    while (nombre[length] != '\0')
+    {
+        length++;
+    }
+    // Recorre todos los caracteres uno por uno
     for (int i = length - 1; i >= 0; i--)
     {
-        if (nombre[i] >= 'a')
+        // Comprobar si estan en minusculas
+        if (nombre[i] >= 'a') 
         {
-            if (nombre[i] <= 'z')
+            if (nombre[i] <= 'z') 
             {
-                nombre[i] = nombre[i] - ('a' - 'A');
+                // Si las condiciones son verdaderas se hace la conversion a mayusculas
+                nombre[i] = nombre[i] - ('a' - 'A'); 
             }
         }
-
+        // Imprime la palabra en mayusculas o igual pero al reves
         printf("%c", nombre[i]);
     }
-
     printf("\n");
     system("PAUSE");
 }
@@ -210,9 +212,9 @@ void salida2(char nombre[])
 void salida3(char nombre[])
 {
     system ("CLS");
-    //Imprimir nombre de la salida
+    // Imprimir nombre de la salida
     printf("Salida 3: UNA LETRA POR RENGLON\n");
-
+    // Recorre todos los caracteres uno por uno
     for (int i = 0; nombre[i] != '\0'; i++)
     {
         if (nombre[i] >= 'a')
@@ -222,10 +224,10 @@ void salida3(char nombre[])
                 nombre[i] = nombre[i] - ('a' - 'A');
             }
         }
-
+        // Imprime la cadena y al usar \n podemos sacar una por renglon
         printf("%c\n", nombre[i]);
     }
-
+    // Para que la palabra se imprima en cada linea
     printf("\n");
     system("PAUSE"); 
 }
@@ -234,11 +236,16 @@ void salida3(char nombre[])
 void salida4(char nombre[])
 {
     system ("CLS");
-    //Imprimir nombre de la salida
+    // Imprimir nombre de la salida
     printf("Salida 4: UNA LETRA POR RENGLON AL REVES\n");
-
-    int length = strlen(nombre);
-
+    // Declarar variable para la longitud/largo
+    int length = 0;
+    // Calcular
+    while (nombre[length] != '\0')
+    {
+        length++;
+    }
+    // Recorre todos los caracteres uno por uno y hace que salga al reves la palabra
     for (int i = length - 1; i >= 0; i--)
     {
         if (nombre[i] >= 'a')
@@ -248,10 +255,10 @@ void salida4(char nombre[])
                 nombre[i] = nombre[i] - ('a' - 'A');
             }
         }
-
+        // Imprime la cadena y al usar \n podemos sacar una por renglon
         printf("%c\n", nombre[i]);
     }
-
+    // Para que la palabra se imprima en cada linea
     printf("\n");
     system("PAUSE"); 
 }
@@ -259,38 +266,38 @@ void salida4(char nombre[])
 // SALIDA 5
 void salida5(char nombre[])
 {
-    system ("CLS");
-    //Imprimir nombre de la salida
-    printf("Salida 5: LA PALABRA MENOS UNA LETRA\n"); 
-    // Declarar variables
-    // Largo del nombre
-    int length = strlen(nombre);
-    char copia_nombre[50];
-    // Copiar 
-    strcpy(copia_nombre, nombre);
-    // Posiciones de la cadena 
-    // Elimina los caracteres desde la posicion i hasta que se acaba la cadena
-    for (int i = length; i >= 0; i--) 
+    system("CLS");
+    // Imprimir nombre de la salida
+    printf("Salida 5: LA PALABRA MENOS UNA LETRA POR RENGLON\n");
+    // Declarar variable para la longitud/largo
+    int length = 0;
+    // Calcular
+    while (nombre[length] != '\0')
     {
-        // Recortar la cadena copiada
-        copia_nombre[i] = '\0'; 
-        // Para mostrar los caracteres 
-        for (int j = 0; copia_nombre[j] != '\0'; j++)
+        length++;
+    }
+    // La longitud de la palabra y va disminuyendo hasta llegar a 1
+    for (int i = length; i >= 1; i--)
+    {
+        // Recorre cada letra y convierte la letra actual a mayúsculas
+        for (int j = 0; j < i; j++)
         {
-            if (copia_nombre[j] >= 'a')
+            if (nombre[j] >= 'a')
             {
-                if (copia_nombre[j] <= 'z')
+                if (nombre[j] <= 'z')
                 {
-                    copia_nombre[j] = copia_nombre[j] - ('a' - 'A');
+                    nombre[j] = nombre[j] - ('a' - 'A');
                 }
             }
-            // Se imprime el caracter de la posicion j
-            printf("%c", copia_nombre[j]);
         }
-        
+        // Imprimie la palabra 
+        for (int j = 0; j < i; j++)
+        {
+            printf("%c", nombre[j]);
+        }
+        // Para que la palabra se imprima en cada linea
         printf("\n");
     }
-
     printf("\n");
     system("PAUSE");  
 }
@@ -299,35 +306,51 @@ void salida5(char nombre[])
 void salida6(char nombre[])
 {
     system ("CLS");
+    // Imprimir nombre de la salida
     printf("Salida 6: LA PALABRA MENOS UNA LETRA AL REVES\n");
-    // Declarar variables
-    int length = strlen(nombre);
-    char copia_nombre[50];
-
-    strcpy(copia_nombre, nombre);
-
-    for (int i = length - 1; i > 0; i--) 
+    // Declarar variable para la longitud/largo
+    int length = 0;
+    // Calcular
+    while (nombre[length] != '\0')
     {
-        // Recortar la cadena copiada
-        copia_nombre[i] = '\0'; 
-
-        for (int j = length - 1; j >= 0; j--)
+        length++;
+    }
+    // Declarar la copia y asignarle un tamaño
+    char copia_nombre[50];
+    // Copiar el nombre a la copia
+    for (int i = 0; i < length; i++)
+    {
+        copia_nombre[i] = nombre[i];
+    }
+    // Que el ultimo caracter sea nulo
+    copia_nombre[length] = '\0';
+    // Muestra la cadena gradualmente
+    while (length > 1)
+    {
+        // Imprimir la cadena copiada en mayusculas al reves
+        for (int i = length - 1; i >= 0; i--)
         {
-            if (copia_nombre[j] >= 'a')
+            if (copia_nombre[i] >= 'a')
             {
-                if (copia_nombre[j] <= 'z')
+                if (copia_nombre[i] <= 'z')
                 {
-                    copia_nombre[j] = copia_nombre[j] - ('a' - 'A');
+                    copia_nombre[i] = copia_nombre[i] - ('a' - 'A');
                 }
             }
-
-            printf("%c", copia_nombre[j]);
+            printf("%c", copia_nombre[i]);
         }
-        
+        // Para pasar a la siguiente linea
         printf("\n");
+        // Acortar la cadena copiada eliminando el primer carácter
+        for (int i = 0; i < length - 1; i++)
+        {
+            copia_nombre[i] = copia_nombre[i + 1];
+        }
+        // Para que el nuevo ultimo caracter si sea el nulo
+        copia_nombre[length - 1] = '\0';
+        // Para que se vea que la cadena ya no tiene un caracter
+        length--;
     }
-
-    printf("\n");
     system("PAUSE");  
 }
 
@@ -335,23 +358,46 @@ void salida6(char nombre[])
 void salida7(char nombre[])
 {
     system ("CLS");
+    // Imprimir nombre de la salida
     printf("Salida 7: LA PALABRA MENOS UNA LETRA DEL INICIO\n");
-    // Declarar variables
-    // Largo del nombre
-    char copia_nombre[50];
-    // Copiar 
-    strcpy(copia_nombre, nombre);
-    
-    for (int i = 0; copia_nombre[i] != '\0'; i++)
+    // Declarar variable para la longitud/largo
+    int length = 0;
+    // Calcular
+    while (nombre[length] != '\0')
     {
-        if (copia_nombre[i] >= 'a')
+        length++;
+    }
+    // Declarar la copia y asignarle un tamaño
+    char copia_nombre[50];
+    // Copiar el nombre a la copia
+    for (int i = 0; i < length; i++)
+    {
+        copia_nombre[i] = nombre[i];
+    }
+    // Que el ultimo caracter sea nulo
+    copia_nombre[length] = '\0';
+    // Itera y muestra la cadena gradualmente
+    while (length > 1)
+    {
+        // Imprimir la cadena copiada en mayúsculas
+        for (int i = 0; i < length; i++)
         {
-            if (copia_nombre[i] <= 'z')
+            if (copia_nombre[i] >= 'a' && copia_nombre[i] <= 'z')
             {
                 copia_nombre[i] = copia_nombre[i] - ('a' - 'A');
             }
+            printf("%c", copia_nombre[i]);
         }
-        printf("%c\n", copia_nombre + i + 1);
+        printf("\n");
+        // Acortar la cadena copiada eliminando el primer carácter
+        for (int i = 0; i < length - 1; i++)
+        {
+            copia_nombre[i] = copia_nombre[i + 1];
+        }
+        // Para que el nuevo ultimo caracter si sea el nulo
+        copia_nombre[length - 1] = '\0';
+        // Para que se vea que la cadena ya no tiene un caracter
+        length--;
     }
     printf("\n");
     system("PAUSE"); 
@@ -361,33 +407,34 @@ void salida7(char nombre[])
 void salida8(char nombre[])
 {
     system ("CLS");
-
+    // Imprimir nombre de la salida
     printf("Salida 8: LA PALABRA MENOS UNA LETRA DEL INICIO AL REVES\n");
-    // Declarar variables
-    int length = strlen(nombre);
-    char copia_nombre[50];
-
-    strcpy(copia_nombre, nombre);
-
-    for (int i = 0; copia_nombre[i] != '\0'; i++) 
+    // Declarar variable para la longitud/largo
+    int length = 0;
+    // Calcular
+    while (nombre[length] != '\0')
     {
-        // Recortar la cadena copiada
-        copia_nombre[i] = '\0'; 
-
-        for (int j = length - 1; j >= 0; j--)
+        length++;
+    }
+    // Leer una cadena al reves hasta llegar al primer elemento que es el 0
+    for (int i = length - 1; i >= 0; i--)
+    {
+        // Convertir la letra actual a mayúsculas
+        for (int j = i; j >= 0; j--)
         {
-            if (copia_nombre[j] >= 'a')
+            if (nombre[j] >= 'a' && nombre[j] <= 'z')
             {
-                if (copia_nombre[j] <= 'z')
-                {
-                    copia_nombre[j] = copia_nombre[j] - ('a' - 'A');
-                }
+                nombre[j] = nombre[j] - ('a' - 'A');
             }
-            printf("%c", copia_nombre[j]);
         }
+        // Imprimir la palabra actual al revés
+        for (int j = i; j >= 0; j--)
+        {
+            printf("%c", nombre[j]);
+        }
+        // Para que la palabra se imprima en cada linea
         printf("\n");
     }
-    printf("\n");
     system("PAUSE"); 
 }
 
