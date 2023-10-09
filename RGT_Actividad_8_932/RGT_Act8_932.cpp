@@ -154,7 +154,7 @@ void vector_2(int vector[10], int m, int ri, int rf)
     // Declarar variables
     int i = 0;
     int valor;
-    // Inicializar el vector con elementos no validos
+    // Inicializar el vector con elementos que no son validos
     for (int j = 0; j < 10; j++)
     {
         vector[j] = -1;
@@ -162,27 +162,23 @@ void vector_2(int vector[10], int m, int ri, int rf)
     // Ciclo para generar los valores aleatorios sin repetir
     while (i < m)
     {
+        //Declarar
         valor = (rand() % (rf - ri + 1)) + ri;
-        bool valor_repetido = false;
-
+        int j = 0;
         // Verificar si el valor ya existe en el vector
-        for (int j = 0; j < 10; j++)
+        while (j < 10 && vector[j] != valor)
         {
-            if (vector[j] == valor)
-            {
-                valor_repetido = true;
-                break;
-            }
+            j++;
         }
-
-        if (!valor_repetido)
+        // Si no se encontro el valor en el vector
+        if (j == 10) 
         {
             vector[i] = valor;
             i++;
         }
     }
-    // Iimprimir los valores
-    printf("Valores generados aleatoriamente para el vector 2: \n");
+    // Imprimir los valores
+    printf("Valores generados aleatoriamente: \n");
     for (i = 0; i < m; i++)
     {
         // Imprimir solo los valores validos (diferentes de -1)
