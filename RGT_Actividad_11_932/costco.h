@@ -10,14 +10,16 @@ NOMBRE DEL ARCHIVO: costco.h
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "champurrado.h"
 
-#define MESES 12
-#define ESTADOS 33
+/* DEFINIR ESTRUCTURAS */
 
 typedef struct _nombre{
     char nombres[50];
-    char apellido1[50];
-    char apellido2[50];
+    char nombre1[20];
+    char nombre2[20];
+    char apellido1[20];
+    char apellido2[20];
 } Tnombre;
 
 typedef struct _fecha{
@@ -39,252 +41,118 @@ typedef struct _datos{
     char sexo[2];
     char estado[33];
     char estado_abreviado[33];
+    char curp[19];
 } Tdatos;
 
-Tnombre generar_nombre_random(char nombre[]);
+/* DEFINIR FUNCIONES PARA ESTRUCTURAS */
+
+Tfecha bisiesto(void);
+int busqueda_secuencial(Tdatos almacen[], int j, int matricula);
+int busqueda_binaria(Tdatos almacen[], int izquierda, int derecha, int matricula);
+int particion(Tdatos almacen[], int ri, int rf);
+void intercambio(Tdatos almacen[], int i, int j);
+
 Tfecha generar_fecha_random(void);
 Tdatos generar_datos_random(void);
+Tdatos generar_datos_manual(Tdatos _datos);
+void generar_datos_curp(Tdatos _datos);
+void generar_datos_curp_texto(Tdatos _datos, FILE *archivo);
 
-int rango(int ri, int rf);
-int matricula_random();
-int bisiesto_random(int anio);
-int ValidarCadena(char mensj[], int ri, int rf);
-int ValidarCadenaTexto(const char cadena[]);
-int ValidarGenero(const char genero[2]);
-int ValidarRango(int num, int ri, int rf);
-int ValidarNombre(char cadena[]);
-int Mayusculas(char cadena[]);
-int validar_fecha(int anio, int mes, int dia);
-int contador(char array[]);
+/* FUNCIONES CON Y PARA ESTRUCTURAS*/
 
-void meses_delanio(char meses[][30]);
-void nombre_femenino1(char cadena[]);
-void nombre_femenino2(char cadena[]);
-void nombre_masculino1(char cadena[]);
-void nombre_masculino2(char cadena[]);
-void apellidos(char cadena[]);
-void segundo_nombre_masculino(char cadena[]);
-void segundo_nombre_femenino(char cadena[]);
-void estados(char estado_abreviado[], int opcion, char estado[]);
-void estados_republica(char estados[][30]);
-void estados_republica_abreviados(char estados_abreviados[][3]);
-
-int rango(int ri, int rf) 
+Tfecha bisiesto()
 {
-    return ri + rand() % (rf - ri + 1);
+    Tfecha temp_fecha;
+
+    int dias[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int dias_bisiestos[] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    temp_fecha.anio = ValidarCadena("INGRESA TU ANIO DE NACIMIENTO: ", 1900, 2023);
+    temp_fecha.mes = ValidarCadena("INGRESA TU MES DE NACIMIENTO: ", 1, 12);
+
+    if (es_bisiesto(temp_fecha.anio))
+    {
+        temp_fecha.dia = ValidarCadena("INGRESA TU DIA DE NACIMIENTO: ", 1, dias_bisiestos[temp_fecha.mes]);
+    }
+    else
+    {
+        temp_fecha.dia = ValidarCadena("INGRESA TU DIA DE NACIMIENTO: ", 1, dias[temp_fecha.mes]);
+    }
+
+    return temp_fecha;
 }
 
-int matricula_random() 
+int busqueda_secuencial(Tdatos almacen[], int j, int matricula)
 {
-    int ri = 300000;
-    int rf = 399999;
-    return ri + rand() % (rf - ri + 1);
+    int i;
+
+    for (i = 0; i < j; i++)
+    {
+        if (almacen[i].matricula == matricula)
+        {
+            return i; 
+        }
+    }
+
+    return -1; 
 }
 
-int bisiesto_random(int anio)
+int busqueda_binaria(Tdatos almacen[], int izquierda, int derecha, int matricula)
 {
-    return((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0));
+    while (izquierda <= derecha)
+    {
+        int medio = izquierda + (derecha - izquierda) / 2;
+
+        if (almacen[medio].matricula == matricula)
+        {
+            return medio;
+        }
+
+        if (almacen[medio].matricula < matricula)
+        {
+            izquierda = medio + 1;
+        }
+
+        if (almacen[medio].matricula > matricula)
+        {
+            derecha = medio - 1;
+        }
+    }
+
+    return -1;
 }
 
-int ValidarCadena(char mensj[], int ri, int rf) 
+int particion(Tdatos almacen[], int ri, int rf)
 {
-    int num;
-    char cadena[200]; 
-    do
+    Tdatos para;
+
+    para.matricula = almacen[rf].matricula;
+
+    int i, j;
+    i = ri - 1;
+
+    for (j = ri; j <= rf - 1; j++)
     {
-        printf("%s", mensj);
-        fflush(stdin); 
-        gets(cadena);
-        num = atoi(cadena);
-    } while (num < ri || num > rf);
-    return num;
+        if (almacen[j].matricula <= para.matricula)
+        {
+            i++;
+            intercambio(almacen, i, j);
+        }
+    }
+
+    intercambio(almacen, i + 1, rf);
+
+    return i + 1;
 }
 
-int ValidarCadenaTexto(const char cadena[]) 
+void intercambio(Tdatos almacen[], int i, int j)
 {
-    int longitud = strlen(cadena);
-    // CADENA VACIA
-    if (longitud == 0) 
-    {
-        return 0;
-    }
-    // ESPACIO AL INICIO O FIN
-    if (cadena[0] == ' ' || cadena[longitud - 1] == ' ') 
-    {
-        return 0; 
-    }
-    // SOLO MAYUSCULAS Y ESPACIOS
-    for (int i = 0; cadena[i] != '\0'; i++) 
-    {
-        if (cadena[i] == ' ') 
-        {
-            // DOBLES ESPACIOS
-            if(cadena[i + 1] == ' ')
-            {
-                return 0;
-            }
-        }
-        else
-        {
-            // CARACTERES NO VALIDOS
-            if(cadena[i] < 'A' || cadena[i] > 'Z')
-            {
-                return 0;
-            }
-        }
-    }
-    // TODO AL 100
-    return 1;
+    Tdatos temp = almacen[i];
+    almacen[i] = almacen[j];
+    almacen[j] = temp;
 }
 
-int ValidarGenero(const char genero[2])
-{
-    return (strcmp(genero, "H") == 0 || strcmp(genero, "M") == 0);
-}
-
-int ValidarRango(int num, int ri, int rf) 
-{
-    return (num >= ri && num <= rf);
-}
-
-int ValidarNombre(char cadena[])
-{
-    int i = 0;
-    // ESPACIO AL INICIO
-    if (cadena[0] == ' ')
-    {
-        return -1;
-    }
-    // CARACTERES
-    if (cadena[0] == '\0')
-    {
-        return -1;
-    }
-    // ACENTOS Y Ñ
-    for (i = 0; cadena[i] != '\0'; i++)
-    {
-        if (cadena[i] == -92 || cadena[i] == -91 || cadena[i] == '/' || cadena[i] == '-')
-        {
-            cadena[i] = 'X';
-        }
-        if (cadena[i] == -102 || cadena[i] == -127)
-        {
-            cadena[i] = 'U';
-        }
-        if (cadena[i] == -75 || cadena[i] == -96)
-        {
-            cadena[i] = 'A';
-        }
-        if (cadena[i] == -126 || cadena[i] == -112)
-        {
-            cadena[i] = 'E';
-        }
-        if (cadena[i] == -42 || cadena[i] == -95)
-        {
-            cadena[i] = 'i';
-        }
-        if (cadena[i] == -32 || cadena[i] == -94)
-        {
-            cadena[i] = 'O';
-        }
-    }
-    Mayusculas(cadena);
-
-    i = 0;
-    while (cadena[i] != '\0')
-    {
-        if ((cadena[i] >= 'A' && cadena[i] <= 'Z'))
-        {
-            // MAYUSCULAS
-        }
-        else
-        {
-            // MINUSCULAS
-            if ((cadena[i] >= 'a' && cadena[i] <= 'z'))
-            {
-                return -1;
-            }
-            else
-            {
-                // DOBLE ESPACIO
-                if (cadena[i] == ' ')
-                {
-                    if (cadena[i + 1] == ' ')
-                    {
-                        return -1; 
-                    }
-                }
-                else
-                {
-                    cadena[i] = 'X';
-                }
-            }
-        }
-        i++;
-    }
-    // TERMINA CON ESPACIO
-    if (cadena[i - 1] == ' ')
-    {
-        return -1; 
-    }
-    // SI SE CUMPLE, RETORNO A 1
-    return 1; 
-}
-
-int Mayusculas(char cadena[]) 
-{
-    int i = 0;
-    while ( cadena[i] != '\0' ) 
-    {
-        if ( cadena[i] >= 'a' )
-        {
-            if ( cadena [i] <= 'z' )
-            {
-                cadena[i] = cadena[i] - ( 'a' - 'A');
-            }
-        }
-        i++;
-    }
-    return 0;
-}
-
-int validar_fecha(int anio, int mes, int dia) 
-{
-    if (mes == 2 && dia == 29) 
-    {
-        if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0)) 
-        {
-            return 1;
-        } 
-        else 
-        {
-            return 0;
-        }
-    }
-
-    if ((mes == 4 || mes == 6 || mes == 9 || mes == 11) && dia > 30) 
-    {
-        return 0;
-    }
-
-    if ((mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) && dia > 31) 
-    {
-        return 0;
-    }
-
-    return 1;
-}
-
-int contador(char cadena[])
-{
-    int largo;
-    largo = 0;
-    while (cadena[largo] != '\0')
-    {
-        largo++;
-    }
-    return largo;
-}
+/* ESTRUCTURAS */
 
 Tfecha generar_fecha_random(void)
 {
@@ -369,39 +237,110 @@ Tdatos generar_datos_random(Tdatos _datos)
     strcpy(_datos.estado, estado);
     strcpy(_datos.estado_abreviado, abreviado_estado);
 
-    printf("Matricula: %d\n", _datos.matricula);
-    printf("Nombres: %s\n", _datos._nombre.nombres);
-    printf("Primer apellido: %s\n", _datos._nombre.apellido1);
-    printf("Segundo apellido: %s\n", _datos._nombre.apellido2);
-    printf("Dia: %d\n", _datos._fecha.dia);
-    printf("Mes: %d\n", _datos._fecha.mes);
-    printf("Anio: %d\n", _datos._fecha.anio);
-    printf("Edad: %d\n", _datos.edad);
-    printf("Sexo: %s\n", _datos.sexo);
-    printf("Estado: %s\n", _datos.estado);
+    printf("MATRICULA: %d\n", _datos.matricula);
+    printf("NOMBRES: %s\n", _datos._nombre.nombres);
+    printf("PRIMER APELLIDO: %s\n", _datos._nombre.apellido1);
+    printf("SEGUNDO APELLIDO: %s\n", _datos._nombre.apellido2);
+    printf("DIA: %d\n", _datos._fecha.dia);
+    printf("MES: %d\n", _datos._fecha.mes);
+    printf("ANIO: %d\n", _datos._fecha.anio);
+    printf("EDAD: %d\n", _datos.edad);
+    printf("SEXO: %s\n", _datos.sexo);
+    printf("ESTADO: %s\n", _datos.estado);
+    printf("CURP: ");
+    generar_datos_curp(_datos);
+    printf("\n");
 
     return _datos;
 }
 
 Tdatos generar_datos_manual(Tdatos _datos)
 {
-    int op;
-    char PriNom[100];
-    char SegNom[100];
-    char PriApe[100];
-    char SegApe[100];
+    //STATUS
+    _datos.status = 1;
 
-    int ap;
-    char anio[5];
-    char mes[3];
-    char dia[3];
+    // MATRICULA
+    _datos.matricula = ValidarCadena("Ingresa la matricula (entre 300000 y 399999): ", 300000, 399999);
 
+    // NOMBRES
+    int nombre_completo;
+
+    char nombre_uno[20];
+    char nombre_dos[20];
+
+    _datos._nombre.nombre1[0] = '\0';
+    _datos._nombre.nombre2[0] = '\0';
+
+    nombre_completo = ValidarCadena("INGRESA EL NUMERO DE NOMBRES QUE TIENES (1|2):", 1, 2);
+    printf("INGRESA TU PRIMER NOMBRE: \n");
+
+    ciclo(nombre_uno);
+    strcpy(_datos._nombre.nombre1, nombre_uno);
+    saltar_nombre(_datos._nombre.nombre1);
+    strcpy(_datos._nombre.nombres, nombre_uno);
+
+    if (nombre_completo == 2)
+    {
+        printf("INGRESA TU SEGUNDO NOMBRE: \n");
+        ciclo(nombre_dos);
+        strcat(_datos._nombre.nombres, " ");
+        strcat(_datos._nombre.nombres, nombre_dos);
+        saltar_nombre(_datos._nombre.nombres);
+        saltar_mini_nombre(_datos._nombre.nombres);
+
+        strcpy(_datos._nombre.nombre2, nombre_dos);
+    }
+
+    //APELLIDOS
+    int apellido_completo;
+
+    char apellido_uno[20];
+    char apellido_dos[20];
+
+    apellido_completo = ValidarCadena("INGRESA EL NUMERO DE APELLIDOS QUE TIENES (1|2|0): ", 0, 2);
+
+    if (apellido_completo == 1)
+    {
+        printf("INGRESA TU PRIMER APELLIDO: \n");
+        ciclo(apellido_uno);
+        saltar_mini_nombre(apellido_uno);
+        saltar_mini_nombre(apellido_uno);
+        strcpy(_datos._nombre.apellido1, apellido_uno);
+
+        _datos._nombre.apellido2[0] = '\0';
+    }
+    else
+    {
+        if (apellido_completo == 2)
+        {
+            printf("INGRESA TU PRIMER APELLIDO: \n");
+            ciclo(apellido_uno);
+            saltar_mini_nombre(apellido_uno);
+            printf("INGRESA TU SEGUNDO APELLIDO: \n");
+            ciclo(apellido_dos);
+            saltar_mini_nombre(apellido_dos);
+            strcpy(_datos._nombre.apellido1, apellido_uno);
+            strcpy(_datos._nombre.apellido2, apellido_dos);
+
+            saltar_mini_nombre(_datos._nombre.apellido1);
+            saltar_mini_nombre(_datos._nombre.apellido2);
+        }
+        else
+        {
+            if (apellido_completo == 3)
+            {
+                _datos._nombre.apellido1[0] = '\0';
+                _datos._nombre.apellido2[0] = '\0';
+            }
+        }
+    }
+
+    // FECHA DE NACIMIENTO
+    _datos._fecha = bisiesto();
+
+    // ESTADOS
     int up;
-    int seleccion;
     char input[20];
-    char meses[MESES][30];
-    meses_delanio(meses);
-
     char estado[20];
     char estado_abreviado[3];
     char estados[ESTADOS][30];
@@ -409,343 +348,341 @@ Tdatos generar_datos_manual(Tdatos _datos)
     estados_republica(estados);
     estados_republica_abreviados(estados_abreviados);
 
-    char genero[2];
-
-    // MATRICULA
-    _datos.matricula = ValidarCadena("Ingresa la matricula (entre 300000 y 399999): ", 300000, 399999);
-    // NOMBRES
-    do {
-        printf("Ingresa tu primer nombre: \n");
-        fflush(stdin);
-        gets(PriNom);
-        Mayusculas(PriNom);
-        op = ValidarCadenaTexto(PriNom);
-        if (op != 1) 
-        {
-            printf("Nombre no valido.\n");
-        }
-    } while (op != 1);
-    strcpy(_datos._nombre.nombres, PriNom);
-    op = ValidarCadena("Tienes un segundo nombre? (SI = 0, NO = 1): \n", 0, 1);
-    if (op == 0) 
-    {
-        printf("Ingresa tu segundo nombre: \n");
-        fflush(stdin);
-        gets(SegNom);
-        Mayusculas(SegNom);
-        op = ValidarCadenaTexto(SegNom);
-        if (op != 1) 
-        {
-            printf("Nombre no valido.\n");
-        }
-        strcat(_datos._nombre.nombres, " "); 
-        strcat(_datos._nombre.nombres, SegNom);
-    }
-    // APELLIDOS
-    do {
-        printf("Ingresa tu primer apellido: \n");
-        fflush(stdin);
-        gets(PriApe);
-        Mayusculas(PriApe);
-        op = ValidarCadenaTexto(PriApe);
-        if (op != 1) 
-        {
-            printf("Apellido no valido.\n");
-        }
-    } while (op != 1);
-    op = ValidarCadena("Tienes un segundo apellido? (SI = 0, NO = 1): \n", 0, 1);
-    if (op == 0) 
-    {
-        printf("Ingresa tu segundo apellido: \n");
-        fflush(stdin);
-        gets(SegApe);
-        Mayusculas(SegApe);
-        op = ValidarCadenaTexto(SegApe);
-        if (op != 1) 
-        {
-            printf("Apellido no valido.\n");
-        }
-        strcat(_datos._nombre.apellido1, " ");
-        strcat(_datos._nombre.apellido1, PriApe);
-        strcat(_datos._nombre.apellido2, " ");
-        strcat(_datos._nombre.apellido2, SegApe);
-    }
-    // FECHA NACIMIENTO
-    do {
-        // AÑO DE NACIMIENTO
-        do {
-        ap = ValidarCadena("Ingresa tu anioo de nacimiento (4 digitos): \n", 1893, 2023);
-        if (ap < 1893) 
-        {
-            printf("El año debe ser mayor o igual a 1893.\n");
-        } 
-        else
-        {
-            if (ap > 2023)
-            {
-                printf("El año debe ser menor o igual a 2023.\n");
-            }
-        }
-        } while (ap < 1893 || ap > 2023);
-        sprintf(_datos._fecha.anio1, "%d", ap);
-        // MES DE NACIMIENTO
-        printf("Meses del anio:\n");
-        for (int i = 0; i < MESES; i++) 
-        {
-            printf("%d. %s\n", i + 1, meses[i]);
-        }
-        do {
-            printf("Ingresa tu mes de nacimiento (numero): ");
-            fflush(stdin);
-            gets(input);
-            seleccion = atoi(input);
-            up = ValidarRango(seleccion, 1, MESES);
-            if (up != 1) 
-            {
-                printf("Mes no valido. Debe estar entre 1 y %d.\n", MESES);
-            }
-        } while (up != 1);
-        mes[0] = seleccion;
-        strcpy(_datos._fecha.mes1, mes);
-        // DIA DE NACIMIENTO
-        do {
-            printf("Ingresa tu dia de nacimiento (1-31): \n");
-            fflush(stdin);
-            gets(input);
-            dia[0] = atoi(input);
-            up = ValidarRango(dia[0], 1, 31);
-            if (up != 1) 
-            {
-                printf("Dia no valido. Debe estar entre 1 y 31.\n");
-            }
-        } while (up != 1);
-        strcpy(_datos._fecha.dia1, dia);
-        up = validar_fecha(anio[0], mes[0], dia[0]);
-        if (up != 1) {
-            printf("Fecha de nacimiento no valida. Por favor, ingresela nuevamente.\n");
-        }
-    } while (up != 1);
-    // ESTADO DONDE FUE REGISTRADO
-    printf("Estados en la Republica Mexicana:\n");
+    printf("ESTADOS EN MEXICO: \n");
     for (int i = 0; i < ESTADOS; i++) 
     {
         printf("%d. %s\n", i + 1, estados[i]);
     }
     do {
-        printf("Ingresa el numero del estado donde fuiste registrado: ");
+        printf("INGRESA EL NUMERO DE ESTADO DONDE FUISTE REGISTRADO: ");
         fflush(stdin); 
         gets(input);  
         up = atoi(input);
         if (up < 1 || up > ESTADOS) 
         {
-            printf("Estado no valido. Debe estar entre 1 y %d.\n", ESTADOS);
+            printf("ESTADO NO VALIDO. DEBE DE ESTAR ENTRE EL 1 Y %d.\n", ESTADOS);
         }
     } while (up < 1 || up > ESTADOS);
+
     strcpy(estado, estados[up - 1]);
     strcpy(estado_abreviado, estados_abreviados[up - 1]);
-    printf("Seleccionaste el estado: %s\n", estado);
+
+    printf("SELECCIONASTE EL ESTADO: %s\n", estado);
     strcpy(_datos.estado, estado);
     strcpy(_datos.estado_abreviado, estado_abreviado);
-    // SEXO
-    do {
-        printf("Ingresa tu genero (H para hombre, M para mujer): ");
-        fflush(stdin);
-        gets(genero);
-        Mayusculas(genero); 
-        up = ValidarGenero(genero);
-        if (up != 1) 
-        {
-            printf("Genero no valido. Debe ser 'H' o 'M'.\n");
-        }
-    } while (up != 1);
-    strcpy(_datos.sexo, genero);
+
+    // GENERO
+    int genero;
+    genero = ValidarCadena("INGRESA TU SEXO:\n[1]HOMBRE\n[2]MUJER\n", 1, 2);
+
+    _datos.sex = genero;
+
+    if (genero == 1)
+    {
+        strcpy(_datos.sexo, "H");
+    }
+    else
+    {
+        strcpy(_datos.sexo, "M");
+    }
+
+    // IMPRIMIR
+    printf("MATRICULA: %d\n", _datos.matricula);
+    printf("NOMBRE 1: %s\n", _datos._nombre.nombre1);
+    printf("NOMBRE 2: %s\n", _datos._nombre.nombre2);
+    printf("APELLIDO PATERNO: %s\n", _datos._nombre.apellido1);
+    printf("APELLIDO MATERNO: %s\n", _datos._nombre.apellido2);
+    printf("FECHA DE NACIMIENTO: %02d-%02d-%04d\n", _datos._fecha.dia, _datos._fecha.mes, _datos._fecha.anio);
+    if (_datos._fecha.anio == 2023)
+    {
+        printf("EDAD: MESES DE EDAD\n");
+    }
+    else
+    {
+        _datos.edad = 2023 - _datos._fecha.anio;
+    }
+    printf("EDAD: %d\n", _datos.edad);
+    printf("SEXO: %s\n", _datos.sexo);
+    printf("ESTADO DE REGISTRO: %s\n", _datos.estado);
+    printf("CURP: ");
+    generar_datos_curp(_datos);
+    printf("\n");
 
     return _datos;
 }
 
-void meses_delanio(char meses[][30])
+void generar_datos_curp(Tdatos _datos)
 {
-    strcpy(meses[0], "Enero");
-    strcpy(meses[1], "Febrero");
-    strcpy(meses[2], "Marzo");
-    strcpy(meses[3], "Abril");
-    strcpy(meses[4], "Mayo");
-    strcpy(meses[5], "Junio");
-    strcpy(meses[6], "Julio");
-    strcpy(meses[7], "Agosto");
-    strcpy(meses[8], "Septiembre");
-    strcpy(meses[9], "Octubre");
-    strcpy(meses[10], "Noviembre");
-    strcpy(meses[11], "Diciembre");
-}
+    char anio[8];
+    char mes[3];
+    char dia[3];
 
-void nombre_femenino1(char cadena[])
-{
-    char PriNomFem[10][10] = {"ANA", "MARIA", "MIA", "ELBA", "IRMA", "SONIA", "LUZ", "DULCE", "EVA", "CARMEN"};
-    strcpy(cadena, PriNomFem[rand()%10]);
-}
+    char cero = '0'; 
 
-void nombre_femenino2(char cadena[])
-{
-    char SegNomFem[10][15] = {"VICTORIA", "FERNANDA", "CRISTINA", "CAROLINA", "ALEJANDRA", "ISABELA", "DANIELA", "MARTINA", "SOFIA", "MARIANA"};
-    strcpy(cadena, SegNomFem[rand()%10]);
-}
-
-void nombre_masculino1(char cadena[])
-{
-    char PriNomMas[10][10] = {"LUIS", "HECTOR", "SAUL", "SAID", "IVAN", "JESUS", "ALDO", "PABLO", "KEVIN", "OMAR"};
-    strcpy(cadena, PriNomMas[rand()%10]);
-}
-
-void nombre_masculino2(char cadena[])
-{
-    char SegNomMas[10][10] = {"FERNANDO", "ALEJANDRO", "RAFAEL", "ANTONIO", "FRANCISCO", "ALFREDO", "JAZIEL", "MANUEL", "MIGUEL", "JAVIER"};
-    strcpy(cadena, SegNomMas[rand()%10]);
-}
-
-void apellidos(char cadena[])
-{
-    char Apellido1[20][10] = {"LOPEZ", "GOMEZ", "DIAZ", "OROZCO", "AGUILAR", "CAMPOS", "JIMENEZ", "VAZQUEZ", "LOMA", "PEREZ", "ANDRADE", "PALACIOS", "GONZALEZ", "HERNANDEZ", "RODRIGUEZ", "MARTINEZ", "CHAVEZ", "CRUZ", "SANCHEZ", "QUIJADA"};
-    strcpy(cadena, Apellido1[rand()%20]);
-}
-
-void segundo_nombre_masculino(char cadena[])
-{
-    char cadena2[20];
-    int i;
-    int j = 0;
-    int cuenta;
-
-    cuenta = contador(cadena);
-    nombre_masculino2(cadena2);
-    cadena[cuenta] = ' ';
-
-    for (i = 0; cadena2[j] != '\0'; i++)
+    if (_datos._fecha.anio > 1983)
     {
-        if (i != 0)
+        if (_datos._fecha.anio <= 1999)
         {
-            cadena[i + cuenta] = cadena2[j];
-            j++;
+            cero = '0';
         }
     }
 
-    cadena[cuenta + i] = '\0';
+    if (_datos._fecha.anio > 1999)
+    {
+        cero = 'A';
+    }
+
+    if (_datos._fecha.anio > 2010)
+    {
+        cero = 'B';
+    }
+
+    char cero1[2];
+    cero1[0] = cero;
+    cero1[1] = '\0';
+
+    sprintf(anio, "%d", _datos._fecha.anio);
+    sprintf(mes, "%d", _datos._fecha.mes);
+    sprintf(dia, "%d", _datos._fecha.dia);
+
+    char curp[20];
+
+    if (strlen(_datos._nombre.apellido1) == 0)
+    {
+        curp[0] = 'X';
+        curp[1] = 'X';
+    }
+    else
+    {
+        curp[0] = _datos._nombre.apellido1[0];
+        curp[1] = vocal(_datos._nombre.apellido1);
+    }
+
+    if (strlen(_datos._nombre.apellido2) == 0)
+    {
+        curp[2] = 'X';
+    }
+    else
+    {
+        curp[2] = _datos._nombre.apellido2[0];
+    }
+
+    curp[3] = _datos._nombre.nombres[0];
+    curp[4] = anio[2];
+    curp[5] = anio[3];
+
+    if (_datos._fecha.mes < 10)
+    {
+        curp[6] = '0'; 
+        curp[7] = mes[0];
+    }
+    else
+    {
+        curp[6] = mes[0];
+        curp[7] = mes[1];
+    }
+    if (_datos._fecha.dia < 10)
+    {
+        curp[8] = '0'; 
+        curp[9] = dia[0];
+    }
+    else
+    {
+        curp[8] = dia[0];
+        curp[9] = dia[1];
+    }
+ 
+    char sexo[2];
+
+    sprintf(sexo, "%s", _datos.sexo);
+
+    if (_datos.sex == 1)
+    {
+        _datos.sexo[0] = 'H';
+    }
+    else
+    {
+        _datos.sexo[0] = 'M';
+    }
+
+    curp[10] = _datos.sexo[0];
+    curp[11] = _datos.estado_abreviado[0];
+    curp[12] = _datos.estado_abreviado[1];
+
+    if (!consonante_apellido(_datos._nombre.apellido1) || strlen(_datos._nombre.apellido1) == 0)
+    {
+        curp[13] = 'X';
+    }
+    else
+    {
+        curp[13] = consonante_apellido(_datos._nombre.apellido1);
+    }
+
+    if (!consonante_apellido(_datos._nombre.apellido2) || strlen(_datos._nombre.apellido2) == 0)
+    {
+        curp[14] = 'X';
+    }
+    else
+    {
+        curp[14] = consonante_apellido(_datos._nombre.apellido2);
+    }
+ 
+    if (!consonante_nombre(_datos._nombre.nombres))
+    {
+        curp[15] = 'X';
+    }
+    else
+    {
+        curp[15] = consonante_nombre(_datos._nombre.nombres);
+    }
+
+    curp[16] = cero1[0];
+    curp[17] = rango(0, 9) + '0';
+    curp[18] = '\0';
+
+    if (ValidarTabu(curp, 81))
+    {
+        curp[1] = 'X';
+    }
+
+    strcpy(_datos.curp, curp);
+    printf("%s\n", _datos.curp);
 }
 
-void segundo_nombre_femenino(char cadena[])
+void generar_datos_curp_texto(Tdatos _datos, FILE *archivo)
 {
-    char cadena2[20];
-    int i;
-    int j = 0;
-    int cuenta;
+    char anio[8];
+    char mes[3];
+    char dia[3];
 
-    cuenta = contador(cadena);
-    nombre_femenino2(cadena2);
-    cadena[cuenta] = ' ';
+    char cero = '0'; 
 
-    for (i = 0; cadena2[j] != '\0'; i++)
+    if (_datos._fecha.anio > 1983)
     {
-        if (i != 0)
+        if (_datos._fecha.anio <= 1999)
         {
-            cadena[i + cuenta] = cadena2[j];
-            j++;
+            cero = '0';
         }
     }
-    
-    cadena[cuenta + i] = '\0';
-}
 
-void estados(char estado_abreviado[], int opcion, char estado[])
-{
-    char estado_chiquito[33][3] = {
-        "AS", "BC", "BS", "CC", "CL", "CM", "CS", "CH", "DF", "DG", "GT", "GR",
-        "HG", "JC", "MC", "MN", "MS", "NT", "NL", "OC", "PL", "QT", "QR", "SP",
-        "SL", "SR", "TC", "TS", "TL", "VZ", "YN", "ZS", "NE"};
+    if (_datos._fecha.anio > 1999)
+    {
+        cero = 'A';
+    }
 
-    char estado_grande[33][25] = {
-        "AGUASCALIENTES", "BAJA CALIFORNIA", "BAJA CALIFORNIA SUR", "CAMPECHE",
-        "CHIAPAS", "CHIHUAHUA", "COAHUILA", "COLIMA", "CIUDAD DE MEXICO",
-        "DURANGO", "GUANAJUATO", "GUERRERO", "HIDALGO",
-        "JALISCO", "MEXICO", "MICHOACAN", "MORELOS", "NAYARIT",
-        "NUEVO LEON", "OAXACA", "PUEBLA", "QUERETARO",
-        "QUINTANA ROO", "SAN LUIS POTOSI", "SINALOA", "SONORA",
-        "TABASCO", "TAMAULIPAS", "TLAXCALA", "VERACRUZ",
-        "YUCATAN", "ZACATECAS", "EXTRANJERO"};
+    if (_datos._fecha.anio > 2010)
+    {
+        cero = 'B';
+    }
 
-    strcpy(estado_abreviado, estado_chiquito[opcion]);
-    strcpy(estado, estado_grande[opcion]);
-}
+    char cero1[2];
+    cero1[0] = cero;
+    cero1[1] = '\0';
 
-void estados_republica(char estados[][30])
-{
-    strcpy(estados[0], "Aguascalientes");
-    strcpy(estados[1], "Baja California");
-    strcpy(estados[2], "Baja California Sur");
-    strcpy(estados[3], "Campeche");
-    strcpy(estados[4], "Chiapas");
-    strcpy(estados[5], "Chihuahua");
-    strcpy(estados[6], "Coahuila");
-    strcpy(estados[7], "Colima");
-    strcpy(estados[8], "Ciudad de Mexico");
-    strcpy(estados[9], "Durango");
-    strcpy(estados[10], "Guanajuato");
-    strcpy(estados[11], "Guerrero");
-    strcpy(estados[12], "Hidalgo");
-    strcpy(estados[13], "Jalisco");
-    strcpy(estados[14], "Mexico");
-    strcpy(estados[15], "Michoacan");
-    strcpy(estados[16], "Morelos");
-    strcpy(estados[17], "Nayarit");
-    strcpy(estados[18], "Nuevo Leon");
-    strcpy(estados[19], "Oaxaca");
-    strcpy(estados[20], "Puebla");
-    strcpy(estados[21], "Queretaro");
-    strcpy(estados[22], "Quintana Roo");
-    strcpy(estados[23], "San Luis Potosi");
-    strcpy(estados[24], "Sinaloa");
-    strcpy(estados[25], "Sonora");
-    strcpy(estados[26], "Tabasco");
-    strcpy(estados[27], "Tamaulipas");
-    strcpy(estados[28], "Tlaxcala");
-    strcpy(estados[29], "Veracruz");
-    strcpy(estados[30], "Yucatan");
-    strcpy(estados[31], "Zacatecas");
-    strcpy(estados[32], "Nacido en el Extranjero");
-}
+    sprintf(anio, "%d", _datos._fecha.anio);
+    sprintf(mes, "%d", _datos._fecha.mes);
+    sprintf(dia, "%d", _datos._fecha.dia);
 
-void estados_republica_abreviados(char estados_abreviados[][3])
-{
-    strcpy(estados_abreviados[0], "AG");
-    strcpy(estados_abreviados[1], "BC");
-    strcpy(estados_abreviados[2], "BS");
-    strcpy(estados_abreviados[3], "CM");
-    strcpy(estados_abreviados[4], "CS");
-    strcpy(estados_abreviados[5], "CH");
-    strcpy(estados_abreviados[6], "CO");
-    strcpy(estados_abreviados[7], "CL");
-    strcpy(estados_abreviados[8], "CMX");
-    strcpy(estados_abreviados[9], "DG");
-    strcpy(estados_abreviados[10], "GT");
-    strcpy(estados_abreviados[11], "GR");
-    strcpy(estados_abreviados[12], "HG");
-    strcpy(estados_abreviados[13], "JC");
-    strcpy(estados_abreviados[14], "MC");
-    strcpy(estados_abreviados[15], "MN");
-    strcpy(estados_abreviados[16], "MS");
-    strcpy(estados_abreviados[17], "NT");
-    strcpy(estados_abreviados[18], "NL");
-    strcpy(estados_abreviados[19], "OC");
-    strcpy(estados_abreviados[20], "PL");
-    strcpy(estados_abreviados[21], "QT");
-    strcpy(estados_abreviados[22], "QR");
-    strcpy(estados_abreviados[23], "SP");
-    strcpy(estados_abreviados[24], "SL");
-    strcpy(estados_abreviados[25], "SR");
-    strcpy(estados_abreviados[26], "TC");
-    strcpy(estados_abreviados[27], "TS");
-    strcpy(estados_abreviados[28], "TL");
-    strcpy(estados_abreviados[29], "VZ");
-    strcpy(estados_abreviados[30], "YN");
-    strcpy(estados_abreviados[31], "ZS");
-    strcpy(estados_abreviados[32], "NE");
+    char curp[20];
+
+    if (strlen(_datos._nombre.apellido1) == 0)
+    {
+        curp[0] = 'X';
+        curp[1] = 'X';
+    }
+    else
+    {
+        curp[0] = _datos._nombre.apellido1[0];
+        curp[1] = vocal(_datos._nombre.apellido1);
+    }
+
+    if (strlen(_datos._nombre.apellido2) == 0)
+    {
+        curp[2] = 'X';
+    }
+    else
+    {
+        curp[2] = _datos._nombre.apellido2[0];
+    }
+
+    curp[3] = _datos._nombre.nombres[0];
+    curp[4] = anio[2];
+    curp[5] = anio[3];
+
+    if (_datos._fecha.mes < 10)
+    {
+        curp[6] = '0'; 
+        curp[7] = mes[0];
+    }
+    else
+    {
+        curp[6] = mes[0];
+        curp[7] = mes[1];
+    }
+    if (_datos._fecha.dia < 10)
+    {
+        curp[8] = '0'; 
+        curp[9] = dia[0];
+    }
+    else
+    {
+        curp[8] = dia[0];
+        curp[9] = dia[1];
+    }
+ 
+    char sexo[2];
+
+    sprintf(sexo, "%s", _datos.sexo);
+
+    if (_datos.sex == 1)
+    {
+        _datos.sexo[0] = 'H';
+    }
+    else
+    {
+        _datos.sexo[0] = 'M';
+    }
+
+    curp[10] = _datos.sexo[0];
+    curp[11] = _datos.estado_abreviado[0];
+    curp[12] = _datos.estado_abreviado[1];
+
+    if (!consonante_apellido(_datos._nombre.apellido1) || strlen(_datos._nombre.apellido1) == 0)
+    {
+        curp[13] = 'X';
+    }
+    else
+    {
+        curp[13] = consonante_apellido(_datos._nombre.apellido1);
+    }
+
+    if (!consonante_apellido(_datos._nombre.apellido2) || strlen(_datos._nombre.apellido2) == 0)
+    {
+        curp[14] = 'X';
+    }
+    else
+    {
+        curp[14] = consonante_apellido(_datos._nombre.apellido2);
+    }
+ 
+    if (!consonante_nombre(_datos._nombre.nombres))
+    {
+        curp[15] = 'X';
+    }
+    else
+    {
+        curp[15] = consonante_nombre(_datos._nombre.nombres);
+    }
+
+    curp[16] = cero1[0];
+    curp[17] = rango(0, 9) + '0';
+    curp[18] = '\0';
+
+    if (ValidarTabu(curp, 81))
+    {
+        curp[1] = 'X';
+    }
+
+    strcpy(_datos.curp, curp);
+    fprintf(archivo, "%s\n", curp);
 }
