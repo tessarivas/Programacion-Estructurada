@@ -1,0 +1,104 @@
+REGISTRO DE ALUMNOS
++---------+-----------+------------------+------------------+---------------------+------------+----------+----------+----------------------+
+| NO. REG | MATRICULA | APELLIDO PATERNO | APELLIDO MATERNO |      NOMBRE(S)      | NACIMIENTO |   EDAD   |   SEXO   |         CURP         |
++---------+-----------+------------------+------------------+---------------------+------------+----------+----------+----------------------+
+| 1       | 300813    | LOPEZ            | HERNANDEZ        | LUZ MARTINA         | 29/09/1984 |    39    |  MUJER   | LOHL840929MCLPRZ05
+| 2       | 300979    | SANCHEZ          | JIMENEZ          | ELBA                | 19/03/1971 |    52    |  MUJER   | SAJE710319MSRNML07
+| 3       | 301042    | VAZQUEZ          | PEREZ            | ELBA                | 22/04/1964 |    59    |  MUJER   | VAPE640422MBCZRL05
+| 4       | 301386    | CAMPOS           | VAZQUEZ          | KEVIN               | 27/01/1925 |    98    |  HOMBRE  | CAVK250127HGRMZV07
+| 5       | 301533    | LOMA             | MARTINEZ         | DANNA VICTORIA      | 29/01/2019 |    04    |  MUJER   | LOMD190129MCCMRNB5
+| 6       | 301678    | GONZALEZ         | CRUZ             | LUIS                | 04/11/2019 |    04    |  HOMBRE  | GOCL191104HZSNRSB4
+| 7       | 302587    | PEREZ            | QUIJADA          | ALDO                | 10/06/1956 |    67    |  HOMBRE  | PEQA560610HNTRJL07
+| 8       | 302838    | RODRIGUEZ        | DIAZ             | EVA                 | 29/12/1931 |    92    |  MUJER   | RODE311229MBCDZV02
+| 9       | 303494    | CAMPOS           | ANDRADE          | SAID                | 19/11/1943 |    80    |  HOMBRE  | CAAS431119HTCMND09
+| 10      | 303517    | PALACIOS         | ANDRADE          | LUZ                 | 25/04/2011 |    12    |  MUJER   | PAAL110425MCCLNZB1
+| 11      | 303544    | MARTINEZ         | ANDRADE          | KEVIN               | 28/05/1992 |    31    |  HOMBRE  | MAAK920528HBCRNV04
+| 12      | 303634    | GOMEZ            | GONZALEZ         | PABLO FRANCISCO     | 25/08/1938 |    85    |  HOMBRE  | GOGP380825HPLMNB05
+| 13      | 303642    | RODRIGUEZ        | SANCHEZ          | LUIS JAVIER         | 29/11/1960 |    63    |  HOMBRE  | ROSL601129HCHDNS04
+| 14      | 303730    | ANDRADE          | CRUZ             | PABLO               | 28/07/2010 |    13    |  HOMBRE  | AACP100728HMCNRBA8
+| 15      | 303879    | HERNANDEZ        | RODRIGUEZ        | DULCE               | 22/11/1997 |    26    |  MUJER   | HERD971122MYNRDL06
+| 16      | 304262    | LOMA             | MARTINEZ         | ELBA MARIANA        | 16/08/1928 |    95    |  MUJER   | LOME280816MDGMRL07
+| 17      | 305026    | PEREZ            | CAMPOS           | OMAR                | 04/12/1978 |    45    |  HOMBRE  | PECO781204HBCRMM02
+| 18      | 305068    | AGUILAR          | PEREZ            | SAUL                | 24/04/1993 |    30    |  HOMBRE  | AUPS930424HVZGRL08
+| 19      | 306449    | DIAZ             | GONZALEZ         | ALDO RAFAEL         | 05/02/2009 |    14    |  HOMBRE  | DIGA090205HJCZNLA7
+| 20      | 306792    | JIMENEZ          | PALACIOS         | PABLO FERNANDO      | 29/05/1978 |    45    |  HOMBRE  | JIPP780529HCHMLB04
+| 21      | 307070    | CRUZ             | VAZQUEZ          | KEVIN ALFREDO       | 20/02/2018 |    05    |  HOMBRE  | CUVK180220HCCRZVB3
+| 22      | 307353    | ANDRADE          | JIMENEZ          | IRMA CAROLINA       | 19/07/1929 |    94    |  MUJER   | AAJI290719MGTNMR01
+| 23      | 307360    | OROZCO           | GOMEZ            | CARMEN              | 02/03/2022 |    01    |  MUJER   | OOGC220302MDGRMRB3
+| 24      | 307857    | GOMEZ            | GOMEZ            | JESUS JAZIEL        | 06/05/1987 |    36    |  HOMBRE  | GOGJ870506HCCMMS08
+| 25      | 308395    | JIMENEZ          | LOMA             | JESUS FRANCISCO     | 06/03/1963 |    60    |  HOMBRE  | JILJ630306HCSMMS03
+| 26      | 308519    | AGUILAR          | LOMA             | LUZ                 | 16/07/1962 |    61    |  MUJER   | AULL620716MNTGMZ07
+| 27      | 309648    | PEREZ            | CHAVEZ           | EVA                 | 09/04/1988 |    35    |  MUJER   | PECE880409MGRRHV01
+| 28      | 309842    | CHAVEZ           | AGUILAR          | ANA SOFIA           | 13/09/2005 |    18    |  MUJER   | CAAA050913MMNHGNA8
+| 29      | 310234    | AGUILAR          | DIAZ             | LUIS ALFREDO        | 29/07/1981 |    42    |  HOMBRE  | AUDL810729HPLGZS05
+| 30      | 310278    | SANCHEZ          | MARTINEZ         | IRMA ALEJANDRA      | 07/08/1950 |    73    |  MUJER   | SAMI500807MNTNRR01
+| 31      | 310346    | ANDRADE          | CRUZ             | OMAR                | 01/02/2015 |    08    |  HOMBRE  | AACO150201HQRNRMB0
+| 32      | 310398    | ANDRADE          | CAMPOS           | HECTOR              | 15/06/1953 |    70    |  HOMBRE  | AACH530615HCSNMC09
+| 33      | 310603    | GONZALEZ         | RODRIGUEZ        | ANA                 | 13/12/1961 |    62    |  MUJER   | GORA611213MCLNDN05
+| 34      | 310985    | DIAZ             | JIMENEZ          | IRMA                | 27/07/1972 |    51    |  MUJER   | DIJI720727MCSZMR03
+| 35      | 311065    | VAZQUEZ          | GONZALEZ         | IRMA FERNANDA       | 10/02/1991 |    32    |  MUJER   | VAGI910210MTCZNR02
+| 36      | 311871    | MARTINEZ         | PEREZ            | JESUS ALEJANDRO     | 21/03/1983 |    40    |  HOMBRE  | MAPJ830321HSPRRS02
+| 37      | 311915    | HERNANDEZ        | PALACIOS         | LUIS ANTONIO        | 04/10/1951 |    72    |  HOMBRE  | HEPL511004HCSRLS01
+| 38      | 312067    | ANDRADE          | VAZQUEZ          | SAID FERNANDO       | 19/12/1943 |    80    |  HOMBRE  | AAVS431219HDGNZD06
+| 39      | 312192    | AGUILAR          | AGUILAR          | DANNA MARIANA       | 17/03/1935 |    88    |  MUJER   | AUAD350317MGRGGN00
+| 40      | 312476    | PEREZ            | GONZALEZ         | IVAN RAFAEL         | 17/09/2013 |    10    |  HOMBRE  | PEGI130917HGRRNVB6
+| 41      | 312629    | VAZQUEZ          | AGUILAR          | CARMEN CAROLINA     | 16/01/1943 |    80    |  MUJER   | VAAC430116MCLZGR00
+| 42      | 312973    | CAMPOS           | PEREZ            | DULCE               | 03/02/1995 |    28    |  MUJER   | CAPD950203MCLMRL02
+| 43      | 313299    | AGUILAR          | CHAVEZ           | SAUL ALFREDO        | 20/07/2003 |    20    |  HOMBRE  | AUCS030720HMSGHLA5
+| 44      | 313947    | JIMENEZ          | MARTINEZ         | LUIS                | 02/06/1938 |    85    |  HOMBRE  | JIML380602HASMRS06
+| 45      | 314412    | JIMENEZ          | GONZALEZ         | LUZ FERNANDA        | 05/07/1953 |    70    |  MUJER   | JIGL530705MCSMNZ06
+| 46      | 315035    | JIMENEZ          | VAZQUEZ          | MARIA               | 21/05/1953 |    70    |  MUJER   | JIVM530521MNLMZR00
+| 47      | 315047    | RODRIGUEZ        | OROZCO           | PABLO RAFAEL        | 16/11/2009 |    14    |  HOMBRE  | ROOP091116HTSDRBA7
+| 48      | 315219    | CAMPOS           | GONZALEZ         | HECTOR ANTONIO      | 20/04/1947 |    76    |  HOMBRE  | CAGH470420HQTMNC08
+| 49      | 315304    | PALACIOS         | CRUZ             | SAID                | 26/06/1968 |    55    |  HOMBRE  | PACS680626HTSLRD09
+| 50      | 315356    | GONZALEZ         | GONZALEZ         | PABLO               | 07/12/1955 |    68    |  HOMBRE  | GOGP551207HCLNNB00
+| 51      | 315547    | SANCHEZ          | PEREZ            | LUZ ALEJANDRA       | 07/09/1923 |    100    |  MUJER   | SAPL230907MJCNRZ00
+| 52      | 315588    | ANDRADE          | GOMEZ            | HECTOR MIGUEL       | 15/11/2005 |    18    |  HOMBRE  | AAGH051115HNENMCA8
+| 53      | 316321    | LOMA             | MARTINEZ         | SAUL MIGUEL         | 14/07/1977 |    46    |  HOMBRE  | LOMS770714HVZMRL06
+| 54      | 316684    | VAZQUEZ          | DIAZ             | IVAN                | 15/09/1970 |    53    |  HOMBRE  | VADI700915HDGZZV06
+| 55      | 317599    | SANCHEZ          | AGUILAR          | PABLO               | 21/10/1990 |    33    |  HOMBRE  | SAAP901021HNTNGB02
+| 56      | 317715    | OROZCO           | QUIJADA          | ANA                 | 14/06/1991 |    32    |  MUJER   | OOQA910614MMNRJN08
+| 57      | 317770    | HERNANDEZ        | AGUILAR          | SONIA               | 09/02/1948 |    75    |  MUJER   | HEAS480209MNLRGN09
+| 58      | 317892    | LOPEZ            | MARTINEZ         | CARMEN              | 18/01/1981 |    42    |  MUJER   | LOMC810118MTLPRR06
+| 59      | 319425    | OROZCO           | PALACIOS         | KEVIN               | 16/07/1968 |    55    |  HOMBRE  | OOPK680716HGTRLV08
+| 60      | 319473    | MARTINEZ         | ANDRADE          | ELBA VICTORIA       | 28/03/1972 |    51    |  MUJER   | MAAE720328MMCRNL08
+| 61      | 319772    | SANCHEZ          | GONZALEZ         | SAID RAFAEL         | 05/06/1975 |    48    |  HOMBRE  | SAGS750605HGTNND05
+| 62      | 319811    | MARTINEZ         | CRUZ             | ALDO                | 24/05/1959 |    64    |  HOMBRE  | MACA590524HTSRRL05
+| 63      | 320307    | PEREZ            | HERNANDEZ        | MARIA ISABELA       | 26/09/1994 |    29    |  MUJER   | PEHM940926MMNRRR02
+| 64      | 320639    | RODRIGUEZ        | CAMPOS           | IVAN ALFREDO        | 10/04/1948 |    75    |  HOMBRE  | ROCI480410HZSDMV07
+| 65      | 320935    | CRUZ             | GONZALEZ         | SONIA VICTORIA      | 27/12/1970 |    53    |  MUJER   | CUGS701227MSLRNN00
+| 66      | 321488    | LOMA             | GOMEZ            | DANNA MARIANA       | 05/02/1998 |    25    |  MUJER   | LOGD980205MNTMMN06
+| 67      | 321497    | ANDRADE          | GONZALEZ         | SONIA CAROLINA      | 23/07/1995 |    28    |  MUJER   | AAGS950723MHGNNN00
+| 68      | 321915    | DIAZ             | PEREZ            | PABLO               | 30/05/1929 |    94    |  HOMBRE  | DIPP290530HMNZRB08
+| 69      | 322017    | OROZCO           | VAZQUEZ          | ELBA MARTINA        | 21/04/1932 |    91    |  MUJER   | OOVE320421MGTRZL04
+| 70      | 322613    | SANCHEZ          | DIAZ             | HECTOR FERNANDO     | 16/01/1991 |    32    |  HOMBRE  | SADH910116HHGNZC04
+| 71      | 323016    | GOMEZ            | CRUZ             | MARIA               | 27/12/2009 |    14    |  MUJER   | GOCM091227MMSMRRA1
+| 72      | 323273    | LOMA             | CAMPOS           | EVA MARTINA         | 08/04/1967 |    56    |  MUJER   | LOCE670408MASMMV02
+| 73      | 323510    | RODRIGUEZ        | DIAZ             | ELBA                | 23/06/1996 |    27    |  MUJER   | RODE960623MGTDZL05
+| 74      | 323566    | CHAVEZ           | GONZALEZ         | JESUS               | 26/07/1975 |    48    |  HOMBRE  | CAGJ750726HGRHNS01
+| 75      | 323687    | PEREZ            | AGUILAR          | CARMEN VICTORIA     | 09/09/1996 |    27    |  MUJER   | PEAC960909MSPRGR03
+| 76      | 324284    | QUIJADA          | OROZCO           | IRMA                | 06/06/1937 |    86    |  MUJER   | QUOI370606MPLJRR08
+| 77      | 324390    | OROZCO           | SANCHEZ          | MARIA               | 11/05/1989 |    34    |  MUJER   | OOSM890511MDFRNR03
+| 78      | 324528    | QUIJADA          | PALACIOS         | LUIS MANUEL         | 11/11/1963 |    60    |  HOMBRE  | QUPL631111HCMJLS01
+| 79      | 324795    | SANCHEZ          | ANDRADE          | SAUL                | 30/06/1931 |    92    |  HOMBRE  | SAAS310630HCCNNL09
+| 80      | 324802    | QUIJADA          | PALACIOS         | JESUS ALFREDO       | 09/08/2018 |    05    |  HOMBRE  | QUPJ180809HBCJLSB5
+| 81      | 324902    | LOPEZ            | VAZQUEZ          | PABLO               | 10/04/1936 |    87    |  HOMBRE  | LOVP360410HCCPZB08
+| 82      | 325295    | CRUZ             | LOMA             | ALDO MIGUEL         | 10/10/1953 |    70    |  HOMBRE  | CULA531010HMSRML01
+| 83      | 325424    | CAMPOS           | LOPEZ            | CARMEN CAROLINA     | 09/03/1963 |    60    |  MUJER   | CALC630309MTCMPR07
+| 84      | 325435    | QUIJADA          | JIMENEZ          | ANA                 | 01/12/1968 |    55    |  MUJER   | QUJA681201MOCJMN04
+| 85      | 325466    | ANDRADE          | OROZCO           | SAID JAVIER         | 18/12/1929 |    94    |  HOMBRE  | AAOS291218HCCNRD09
+| 86      | 325496    | CRUZ             | GONZALEZ         | ELBA                | 11/01/2004 |    19    |  MUJER   | CUGE040111MCSRNLA0
+| 87      | 325690    | RODRIGUEZ        | CRUZ             | LUIS                | 11/12/2010 |    13    |  HOMBRE  | ROCL101211HQRDRSA4
+| 88      | 327946    | RODRIGUEZ        | CAMPOS           | CARMEN ALEJANDRA    | 17/02/1959 |    64    |  MUJER   | ROCC590217MHGDMR05
+| 89      | 328455    | LOMA             | DIAZ             | DULCE               | 02/07/1982 |    41    |  MUJER   | LODD820702MMSMZL05
+| 90      | 328517    | DIAZ             | DIAZ             | DULCE               | 14/11/1924 |    99    |  MUJER   | DIDD241114MHGZZL05
+| 91      | 328728    | CHAVEZ           | CHAVEZ           | IRMA DANIELA        | 04/02/2005 |    18    |  MUJER   | CACI050204MOCHHRA4
+| 92      | 329464    | PEREZ            | VAZQUEZ          | SAID FRANCISCO      | 21/12/1974 |    49    |  HOMBRE  | PEVS741221HJCRZD06
+| 93      | 329899    | PALACIOS         | LOMA             | JESUS               | 21/01/2011 |    12    |  HOMBRE  | PALJ110121HOCLMSB6
+| 94      | 329956    | LOPEZ            | CHAVEZ           | LUZ                 | 22/09/1969 |    54    |  MUJER   | LOCL690922MASPHZ09
+| 95      | 330886    | AGUILAR          | CRUZ             | SAUL ALEJANDRO      | 12/02/1957 |    66    |  HOMBRE  | AUCS570212HMNGRL00
+| 96      | 331078    | PEREZ            | PALACIOS         | KEVIN               | 10/11/1945 |    78    |  HOMBRE  | PEPK451110HCSRLV04
+| 97      | 331719    | DIAZ             | SANCHEZ          | KEVIN FRANCISCO     | 20/01/1948 |    75    |  HOMBRE  | DISK480120HDFZNV06
+| 98      | 331997    | CAMPOS           | CHAVEZ           | DANNA ALEJANDRA     | 08/06/1939 |    84    |  MUJER   | CACD390608MCHMHN00
+| 99      | 332208    | LOMA             | DIAZ             | SONIA VICTORIA      | 11/04/1926 |    97    |  MUJER   | LODS260411MCHMZN03
+| 100     | 332509    | RODRIGUEZ        | CHAVEZ           | PABLO ANTONIO       | 16/08/1996 |    27    |  HOMBRE  | ROCP960816HMCDHB05
