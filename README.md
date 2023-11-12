@@ -1,1 +1,2 @@
-# RGT_Actividades_932
+# PROGRAMACIÓN ESTRUCTURADA
+Impartida por: Profre. Pedro Yepiz Nuñez
