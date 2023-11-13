@@ -71,9 +71,9 @@ int menu()
             case 2:
                 printf("AGREGAR\n");
                 printf("SE AÑADIO CORRECTAMENTE\n");
-                if (i + 10 <= REGISTROS) // QUIERE DECIR QUE SI LOS NUMEROS DE REGISTRO + 1 ES MENOR A R (1500), SE PUEDE AGREGAR.
+                if (i + 10 <= REGISTROS)
                 {
-                    for (int j = 0; j < 10; j++) // TE VA A GENERAR 10 VECES.
+                    for (int j = 0; j < 10; j++)
                     {
                         if (i < REGISTROS)
                         {
@@ -178,6 +178,8 @@ int menu()
     return 0;
 }
 
+/* Muestra en la terminal los registros de alumnos que tienen status 1.
+Se pueden ver 40 registros a la vez, y para ver mas solo hay que darle al "ENTER".*/
 int imprimir_registro(Tdatos almacen[], int i) 
 {
     int j;
@@ -232,6 +234,9 @@ int imprimir_registro(Tdatos almacen[], int i)
     return 0;
 }
 
+/* Ingresas la matricula de un alumno para eliminar. Luego busca la matricula en el 
+arreglo de registros. Si la encuentra y el status 1, muestra la info del alumno y solicita 
+confirmacion SI o NO para eliminar. Despues actualiza el status en 0 si se confirma.*/
 void eliminar_registro(Tdatos almacen[], int i)
 {
     int borrar;
@@ -371,6 +376,9 @@ int seleccion(Tdatos almacen[], int ri, int rf)
     return -1;
 }
 
+/* Aqui abrimos un archivo con el nombre que se ingreso y verificamos si existe. Luego si el archivo
+esta vacio o si tiene un encabezado. Si hay un encabezado, lo omite. Despues lee cada linea en el archivo, 
+interpreta los datos y los guarda en el arreglo de registros. */
 int cargar_archivo(Tdatos almacen[], int i, char nombre_archivo[])
 {
     FILE *archivo;
@@ -422,6 +430,9 @@ int cargar_archivo(Tdatos almacen[], int i, char nombre_archivo[])
     return i;
 }
 
+/*  Crea un nuevo archivo de texto, con el nombre que pusimos y con ".txt". Luego escribe en ese archivo un 
+formato de tabla con los datos almacenados en el arreglo. Solo incluye registros con status 1 y muestra la 
+info con el encabezado.*/
 void copiar_registro_texto(Tdatos almacen[], int i, char nombre_direccion[])
 {
     char direccion[1000];
@@ -470,6 +481,9 @@ void copiar_registro_texto(Tdatos almacen[], int i, char nombre_direccion[])
     fclose(archivo);
 } 
 
+/*  Crea un nuevo archivo de texto, con el nombre que pusimos y con ".txt". Luego escribe en ese archivo un 
+formato de tabla con los datos almacenados en el arreglo. Solo incluye registros con status 0 (eliminados) y 
+muestra la info con el encabezado.*/
 void copiar_eliminados_texto(Tdatos almacen[], int i, char nombre_direccion[])
 {
     char direccion[1000];
@@ -518,6 +532,9 @@ void copiar_eliminados_texto(Tdatos almacen[], int i, char nombre_direccion[])
     fclose(archivo);
 } 
 
+/*  Ingresa el nombre del archivo. Luego utiliza la funcion "sprintf" para hacer un comando con el formato 
+"churrumais.exe %s", donde (%s) es el nombre del archivo. Despues ejecuta el comando mediante "system" para 
+obtener el contador de registros en el archivo y muestra esta info en la salida estandar.*/
 void contador_registros()
 {
     int contador;
