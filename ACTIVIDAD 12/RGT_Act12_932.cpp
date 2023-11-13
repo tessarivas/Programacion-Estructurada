@@ -22,6 +22,7 @@ int seleccion(Tdatos almacen[], int ri, int rf);
 int cargar_archivo(Tdatos almacen[], int i, char nombre_archivo[]);
 void copiar_registro_texto(Tdatos almacen[], int i, char nombre_direccion[]);
 void copiar_eliminados_texto(Tdatos almacen[], int i, char nombre_direccion[]);
+void contador_registros();
 
 int main()
 {
@@ -45,7 +46,7 @@ int menu_mensaje()
     printf("8.- CANTIDAD DE REGISTROS EN ARCHIVO\n");
     printf("9.- MOSTRAR ELIMINADOS\n");
     printf("0.- SALIR\n");
-    opcion = ValidarCadena("OPCION QUE ELEGISTE(0-6):\n", 0, 9);
+    opcion = ValidarCadena("OPCION QUE ELEGISTE(0-9):\n", 0, 9);
     return opcion;
 }
 
@@ -54,10 +55,7 @@ int menu()
     int i = 0;
     int orden;
     int opcion;
-    int subopcion;
     char nombre[15];
-    int total_registros;
-    int registros_cargados;
     Tdatos almacen[REGISTROS];
     Tdatos _datos;
     do {
@@ -67,73 +65,35 @@ int menu()
         {
             case 1:
                 printf("CARGAR ARCHIVO\n");
-                i = cargar_archivo(almacen, i, "C:\\Users\\52616\\OneDrive\\Documentos\\U A B C\\3er Semestre\\Programacion Estructurada\\Actividad 12\\archivo.txt");
+                i = cargar_archivo(almacen, i, "C:\\Users\\52616\\OneDrive\\Documentos\\U A B C\\3er Semestre\\Programacion Estructurada\\Actividad 12\\output\\datos.txt");
                 system("PAUSE");
                 break;
             case 2:
                 printf("AGREGAR\n");
-                do {
-                    system("CLS");
-                    printf("AGREGAR:\n");
-                    printf("1.- MANUAL\n");
-                    printf("2.- AUTOMATICO\n");
-                    printf("3.- REGRESAR\n");
-                    subopcion = ValidarCadena("OPCION QUE ELEGISTE(1-3):\n", 1, 3);
-                    switch (subopcion) 
+                printf("SE AÑADIO CORRECTAMENTE\n");
+                if (i + 10 <= REGISTROS) // QUIERE DECIR QUE SI LOS NUMEROS DE REGISTRO + 1 ES MENOR A R (1500), SE PUEDE AGREGAR.
+                {
+                    for (int j = 0; j < 10; j++) // TE VA A GENERAR 10 VECES.
                     {
-                        case 1:
-                            if(i >= REGISTROS)
+                        if (i < REGISTROS)
+                        {
+                            _datos = generar_datos_random(_datos);
+                            while (busqueda_secuencial(almacen, i, _datos.matricula) != -1)
                             {
-                                printf("YA HAZ LLENADO TODOS LOS REGISTROS\n");
+                                _datos.matricula = (rand() % 399999) + 300000;
                             }
-                            else
-                            {
-                                if (i + 1 < REGISTROS)
-                                {
-                                    _datos = generar_datos_manual(_datos);
-
-                                    while(busqueda_secuencial(almacen, i, _datos.matricula) != -1)
-                                    {
-                                        _datos.matricula = (rand() % 399999) + 300000;
-                                    }
-
-                                    almacen[i] = _datos;
-                                    i++;
-                                }
-                            }
-                            printf("SE AÑADIO CORRECTAMENTE\n");
-
-                            orden = 0;
-                            system("PAUSE");
-                            break;
-                        case 2:
-                            printf("AUTOMATICO\n");
-                            int j;
-                            for (j = 0; j < 10; j++)
-                            {
-                                if (i < REGISTROS)
-                                {
-                                    _datos = generar_datos_random(_datos);
-
-                                    while(busqueda_secuencial(almacen, i, _datos.matricula) != -1)
-                                    {
-                                        _datos.matricula = (rand() % 399999) + 300000;
-                                    }
-
-                                    almacen[i] = _datos;
-                                    i++;
-                                }
-                            }
-                            printf("LOS REGISTROS HAN SIDO AGREGADOS CORRECTAMENTE\n");
-
-                            orden = 0;
-                            system("PAUSE");
-                            break;
-                        case 3:
-                            break;
+                            almacen[i] = _datos;
+                            i++;
+                        }
                     }
-                } while (subopcion != 3);
-                break;
+                    printf("SE HAN AGREGADO LOS REGISTROS CORRECTAMENTE \n");
+                }
+                else
+                {
+                    printf("YA HAZ LLENADO TODOS LOS REGISTROS\n");
+                }
+
+                orden = 0;
                 system("PAUSE");
                 break;
             case 3:
@@ -197,17 +157,7 @@ int menu()
                 break;
             case 8:
                 printf("CANTIDAD DE REGISTROS EN ARCHIVO\n\n");
-                registros_cargados = cargar_archivo(almacen, i, "C:\\Users\\52616\\OneDrive\\Documentos\\U A B C\\3er Semestre\\Programacion Estructurada\\Actividad 12\\archivo.txt");
-                total_registros = 0;
-                printf("TOTAL DE ALUMNOS CARGADOS: %d\n", registros_cargados);
-                for (int j = 0; j < registros_cargados; j++)
-                {
-                    if (almacen[j].status == 1)
-                    {
-                        total_registros++;
-                    }
-                }
-                printf("ALUMNOS ACTIVOS: %d\n", total_registros);
+                contador_registros();
                 system("PAUSE");
                 break;
             case 9:
@@ -225,6 +175,7 @@ int menu()
                 break;
         }
     } while(opcion != 0);
+    return 0;
 }
 
 int imprimir_registro(Tdatos almacen[], int i) 
@@ -251,16 +202,13 @@ int imprimir_registro(Tdatos almacen[], int i)
                 almacen[j]._nombre.nombres,
                 almacen[j].edad
             );
-            if (almacen[j].sex == 1)
+            if (strcmp(almacen[j].sexo, "H") == 0 || strcmp(almacen[j].sexo, "MASCULINO") == 0)
             {
-                printf(" HOMBRE  | ");
+                printf("HOMBRE");
             }
-            else
+            else if (strcmp(almacen[j].sexo, "M") == 0 || strcmp(almacen[j].sexo, "FEMENINO") == 0)
             {
-                if (almacen[j].sex == 2)
-                {
-                    printf(" MUJER   | ");
-                }
+                printf("MUJER");
             }
             printf("\n");
             status_uno++;
@@ -426,22 +374,47 @@ int seleccion(Tdatos almacen[], int ri, int rf)
 int cargar_archivo(Tdatos almacen[], int i, char nombre_archivo[])
 {
     FILE *archivo;
-    int basura;
+    int trash;
 
     archivo = fopen(nombre_archivo, "r");
 
-    if(archivo == NULL)
+    if (archivo == NULL)
     {
         printf("EL ARCHIVO NO EXISTE\n");
         return i;
     }
 
-    while (fscanf(archivo, "%d.- %d %s %s %s %d %s", &basura, &almacen[i].matricula, almacen[i]._nombre.nombres, almacen[i]._nombre.apellido1, almacen[i]._nombre.apellido2, &almacen[i].edad, almacen[i].sexo) == 7)
+    // VERIFICAR SI TIENE ENCABEZADO.
+    char pr_linea[100];
+    if (fgets(pr_linea, sizeof(pr_linea), archivo) == NULL)
     {
-        almacen[i].status = 1;
-        printf("Leer datos: %d %s %s %s %d %s\n", almacen[i].matricula, almacen[i]._nombre.nombres, almacen[i]._nombre.apellido1, almacen[i]._nombre.apellido2, almacen[i].edad, almacen[i].sexo);
-        i++;
+        printf("EL ARCHIVO ESTA VACIO\n");
+        fclose(archivo);
+        return i;
     }
+
+    // VERIFICO SI TIENE ENCABEZADO CON EL FORMATO QUE YA TENGO.
+    int encabezado = sscanf(pr_linea, "%d.- %d %s %s %s %d %s", &trash, &almacen[i].matricula, almacen[i]._nombre.nombres, almacen[i]._nombre.apellido1, almacen[i]._nombre.apellido2, &almacen[i].edad, almacen[i].sexo) != 7;
+
+    if (encabezado)
+    {
+        if (fgets(pr_linea, sizeof(pr_linea), archivo) == NULL)
+        {
+            printf("NO HAY MAS DATOS EN EL ARCHIVO\n");
+            fclose(archivo);
+            return i;
+        }
+    }
+
+    do
+    {
+        if (sscanf(pr_linea, "%d.- %d %s %s %s %d %s", &trash, &almacen[i].matricula, almacen[i]._nombre.nombres, almacen[i]._nombre.apellido1, almacen[i]._nombre.apellido2, &almacen[i].edad, almacen[i].sexo) == 7)
+        {
+            almacen[i].status = 1;
+            printf("Leer datos: %d %s %s %s %d %s\n", almacen[i].matricula, almacen[i]._nombre.nombres, almacen[i]._nombre.apellido1, almacen[i]._nombre.apellido2, almacen[i].edad, almacen[i].sexo);
+            i++;
+        }
+    } while (fgets(pr_linea, sizeof(pr_linea), archivo) != NULL);
 
     printf("LOS DATOS HAN SIDO AGREGADOS A LOS REGISTROS\n");
     fclose(archivo);
@@ -452,8 +425,9 @@ int cargar_archivo(Tdatos almacen[], int i, char nombre_archivo[])
 void copiar_registro_texto(Tdatos almacen[], int i, char nombre_direccion[])
 {
     char direccion[1000];
-    strcpy(direccion, "C:\\Users\\52616\\OneDrive\\Documentos\\U A B C\\3er Semestre\\Programacion Estructurada\\Actividad 12");
+    strcpy(direccion, "C:\\Users\\52616\\OneDrive\\Documentos\\U A B C\\3er Semestre\\Programacion Estructurada\\Actividad 12\\");
     strcat(direccion, nombre_direccion);
+    strcat(direccion, ".txt");
 
     FILE *archivo = fopen(direccion, "w");
 
@@ -463,33 +437,31 @@ void copiar_registro_texto(Tdatos almacen[], int i, char nombre_direccion[])
         return;
     }
 
-    fprintf(archivo, "REGISTRO DE ALUMNOS\n");
-    fprintf(archivo, "+---------+--------+-----------+------------------+------------------+---------------------+----------+----------+\n");
-    fprintf(archivo, "| NO. REG | STATUS | MATRICULA | APELLIDO PATERNO | APELLIDO MATERNO |      NOMBRE(S)      |   EDAD   |   SEXO   |\n");
-    fprintf(archivo, "+---------+--------+-----------+------------------+------------------+---------------------+----------+----------+\n");
+    fprintf(archivo, "+---------+-----------+------------------+------------------+------------------+----------+--------+\n");
+    fprintf(archivo, "| NO. REG | MATRICULA | APELLIDO PATERNO | APELLIDO MATERNO |      NOMBRE      |   EDAD   |  SEXO  |\n");
+    fprintf(archivo, "+---------+-----------+------------------+------------------+------------------+----------+--------+\n");
 
     for (int j = 0; j < i; j++) 
     {
-        if (almacen[j].status == 1) 
+        if (almacen[j].status == 1)
         {
-            fprintf(archivo, "| %-6d  | %-5d  | %-9d | %-16s | %-16s | %-19s | %-6d   | ", 
-                j + 1,
-                almacen[j].status,
-                almacen[j].matricula,
-                almacen[j]._nombre.apellido1,
-                almacen[j]._nombre.apellido2,
-                almacen[j]._nombre.nombres,
-                almacen[j].edad
+            fprintf(archivo, "%2d.-        %-10d  %-17s  %-17s  %-20s  %-6d  ", 
+            j + 1,
+            almacen[j].matricula,
+            almacen[j]._nombre.apellido1,
+            almacen[j]._nombre.apellido2,
+            almacen[j]._nombre.nombres,
+            almacen[j].edad
             );
-            if (almacen[j].sex == 1)
+            if (strcmp(almacen[j].sexo, "H") == 0 || strcmp(almacen[j].sexo, "MASCULINO") == 0)
             {
-                fprintf(archivo, " HOMBRE  | ");
+                fprintf(archivo,"HOMBRE");
             }
-            else
+            else 
             {
-                if (almacen[j].sex == 2)
+                if (strcmp(almacen[j].sexo, "M") == 0 || strcmp(almacen[j].sexo, "FEMENINO") == 0)
                 {
-                    fprintf(archivo, " MUJER   | ");
+                    fprintf(archivo,"MUJER");
                 }
             }
             fprintf(archivo, "\n");
@@ -501,8 +473,9 @@ void copiar_registro_texto(Tdatos almacen[], int i, char nombre_direccion[])
 void copiar_eliminados_texto(Tdatos almacen[], int i, char nombre_direccion[])
 {
     char direccion[1000];
-    strcpy(direccion, "C:\\Users\\52616\\OneDrive\\Documentos\\U A B C\\3er Semestre\\Programacion Estructurada\\Actividad 12");
+    strcpy(direccion, "C:\\Users\\52616\\OneDrive\\Documentos\\U A B C\\3er Semestre\\Programacion Estructurada\\Actividad 12\\");
     strcat(direccion, nombre_direccion);
+    strcat(direccion, ".txt");
 
     FILE *archivo = fopen(direccion, "w");
 
@@ -512,33 +485,31 @@ void copiar_eliminados_texto(Tdatos almacen[], int i, char nombre_direccion[])
         return;
     }
 
-    fprintf(archivo, "REGISTRO DE ALUMNOS\n");
-    fprintf(archivo, "+---------+--------+-----------+------------------+------------------+---------------------+----------+----------+\n");
-    fprintf(archivo, "| NO. REG | STATUS | MATRICULA | APELLIDO PATERNO | APELLIDO MATERNO |      NOMBRE(S)      |   EDAD   |   SEXO   |\n");
-    fprintf(archivo, "+---------+--------+-----------+------------------+------------------+---------------------+----------+----------+\n");
+    fprintf(archivo, "+---------+-----------+------------------+------------------+------------------+----------+--------+\n");
+    fprintf(archivo, "| NO. REG | MATRICULA | APELLIDO PATERNO | APELLIDO MATERNO |      NOMBRE      |   EDAD   |  SEXO  |\n");
+    fprintf(archivo, "+---------+-----------+------------------+------------------+------------------+----------+--------+\n");
 
     for (int j = 0; j < i; j++) 
     {
         if (almacen[j].status == 0) 
         {
-            fprintf(archivo, "| %-6d  | %-5d  | %-9d | %-16s | %-16s | %-19s | %-6d   | ", 
-                j + 1,
-                almacen[j].status,
-                almacen[j].matricula,
-                almacen[j]._nombre.apellido1,
-                almacen[j]._nombre.apellido2,
-                almacen[j]._nombre.nombres,
-                almacen[j].edad
+            fprintf(archivo, "%2d.-        %-10d  %-17s  %-17s  %-20s  %-6d  ", 
+            j + 1,
+            almacen[j].matricula,
+            almacen[j]._nombre.apellido1,
+            almacen[j]._nombre.apellido2,
+            almacen[j]._nombre.nombres,
+            almacen[j].edad
             );
-            if (almacen[j].sex == 1)
+            if (strcmp(almacen[j].sexo, "H") == 0 || strcmp(almacen[j].sexo, "MASCULINO") == 0)
             {
-                fprintf(archivo, " HOMBRE  | ");
+                fprintf(archivo,"HOMBRE");
             }
-            else
+            else 
             {
-                if (almacen[j].sex == 2)
+                if (strcmp(almacen[j].sexo, "M") == 0 || strcmp(almacen[j].sexo, "FEMENINO") == 0)
                 {
-                    fprintf(archivo, " MUJER   | ");
+                    fprintf(archivo,"MUJER");
                 }
             }
             fprintf(archivo, "\n");
@@ -546,3 +517,26 @@ void copiar_eliminados_texto(Tdatos almacen[], int i, char nombre_direccion[])
     }
     fclose(archivo);
 } 
+
+void contador_registros()
+{
+    int contador;
+    char nombre_archivo[50];
+    char cmd[50];
+    do
+    {
+        preguntar("INGRESE NOMBRE DEL ARCHIVO: ",nombre_archivo);
+    } while (ValidarNombre(nombre_archivo) == -1);
+
+    sprintf(cmd,"churrumais.exe %s", nombre_archivo);
+    contador = system(cmd);
+    
+    if (contador != -1)
+    {
+        printf("ACTUALMENTE EL ARCHIVO %s CONTIENE %d REGISTROS.\n", nombre_archivo, contador);
+    }
+    else
+    {
+        printf("NO SE ENCONTRO EL ARCHIVO\n");
+    }
+}
