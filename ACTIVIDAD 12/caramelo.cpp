@@ -1,3 +1,8 @@
+/* Este programa cuenta el numero de registros en un archivo de texto con un formato especifico. 
+Toma el nombre del archivo como argumento de linea de comandos, construye el nombre completo agregando 
+".txt", abre el archivo y cuenta los registros siguiendo un formato especifico. Retorna el numero de 
+registros leidos o -1 en caso de error.*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
